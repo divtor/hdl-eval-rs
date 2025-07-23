@@ -2,6 +2,8 @@
 name = "rusthdl-eval"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
 rust-hdl = { version = "0.46.0", features = ["fpga"] }
+rust-hdl-bsp-ice-stick = { path = "../rust-hdl-bsp-ice-stick" }

@@ -319,6 +319,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust-hdl-bsp-ice-stick"
+version = "0.1.0"
+dependencies = [
+ "rust-hdl",
+]
+
+[[package]]
 name = "rust-hdl-core"
 version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -402,6 +409,7 @@ name = "rusthdl-eval"
 version = "0.1.0"
 dependencies = [
  "rust-hdl",
+ "rust-hdl-bsp-ice-stick",
 ]
 
 [[package]]
