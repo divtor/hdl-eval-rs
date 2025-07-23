@@ -1,0 +1,8 @@
+[package]
+name = "rust-hdl-bsp-ice-stick"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+rust-hdl = { version = "0.46.0", features = ["fpga"] }
