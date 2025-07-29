@@ -3,6 +3,9 @@ name = "rust-hdl-bsp-ice-stick"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
+description = "Support crate for RustHDL - provides Board Support Package for the iCEstick (HX1KTQ144)"
+keywords = ["fpga", "icestorm", "verilog", "hardware"]
+authors = ["Dominik Staudinger <dominikstaudinger.biz@gmail.com>"]
 
 [dependencies]
 rust-hdl = { version = "0.46.0", features = ["fpga"] }
