@@ -21,7 +21,7 @@ fn main() {
         Modes::TestingSimulation => {
             testing_sim::simulate();
         }
-        Modes::AdderSimulation => {},
+        Modes::AdderSimulation => {}
         Modes::IceStickSynth => {}
     }
 }

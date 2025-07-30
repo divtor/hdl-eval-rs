@@ -1,9 +1,5 @@
-use std::{array, time::Duration};
-
 use rust_hdl::prelude::*;
-
-const CLOCK_SPEED: u64 = 1_000;
-const SIMULATION_RESULT_PATH: &'static str = "simulations/project_simulation.vcd";
+use std::{array, time::Duration};
 
 #[derive(LogicBlock)]
 pub struct MultipleLEDSim<const N: usize> {
@@ -14,7 +10,7 @@ pub struct MultipleLEDSim<const N: usize> {
 
 impl<const N: usize> Default for MultipleLEDSim<N> {
     fn default() -> Self {
-        let clock_speed_hz: u64 = CLOCK_SPEED;
+        let clock_speed_hz: u64 = 1000;
         let pulse_rate_hz: f64 = 1.0;
 
         let pulsers = array::from_fn(|idx| {
@@ -56,26 +52,49 @@ impl<const N: usize> Logic for MultipleLEDSim<N> {
 }
 
 pub fn simulate() {
-    let simulation_clock_speed = CLOCK_SPEED;
-    let simulation_max_time = sim_time::ONE_MILLISECOND * 10_000;
-    let simulation_vcd_file_path = SIMULATION_RESULT_PATH;
-
-    // TODO create MultipleLEDSim instance here instead of using default
     // TODO properly understand clock settings and timing and document it
+    // Current configuration: simulation CLK: 100_000; wait 10_000 clock cycles; Pulser clock speed hz: 1000; pulse rate hz: 1.0
+    // 100 ms simulation length,  10 ms cycles (of the logic being applied)
+    // how to keep same length and reduce 'cycle length'?
+    // the parameters are still cryptic; TODO: dig through doc and find the real purpose of the values
+    // maybe do not use simple_sim! macro, to gain better control
 
-    let led_simulation_circuit = MultipleLEDSim::default();
+    let simulation_max_time = sim_time::ONE_MILLISECOND * 10_000;
+    let simulation_vcd_file_path = "simulations/project_simulation.vcd";
 
-    let mut simulation = simple_sim!(
-        MultipleLEDSim<8>, // module instance
-        clock, // clock field of the module instance
-        simulation_clock_speed, 
-        endpoint, 
-        {
-            let mut circuit = endpoint.init()?;
-            wait_clock_cycles!(endpoint, clock, circuit, 100);
-            endpoint.done(circuit)
-        }
-    );
+    // CIRCUIT CREATION ---------------------------------------------------------------------------
+    let clock_speed_hz: u64 = 1000;
+    let pulse_rate_hz: f64 = 1.0;
+
+    let pulsers = array::from_fn(|idx| {
+        Pulser::new(
+            clock_speed_hz,
+            pulse_rate_hz,
+            Duration::from_millis(((idx as u64) + 1) * 10),
+        )
+    });
+
+    let clock = Default::default();
+    let leds = Default::default();
+
+    let led_simulation_circuit = MultipleLEDSim {
+        clock,
+        leds,
+        pulsers,
+    };
+
+    // SIMULATE -----------------------------------------------------------------------------------
+    let mut simulation = Simulation::new();
+
+    simulation.add_clock(1_000_000, |circuit: &mut Box<MultipleLEDSim<8>>| {
+        circuit.clock.next = !circuit.clock.val()
+    });
+
+    simulation.add_testbench(move |mut fixture: Sim<MultipleLEDSim<8>>| {
+        let mut circuit = fixture.init()?;
+        wait_clock_cycles!(fixture, clock, circuit, 10 * 1000);
+        fixture.done(circuit)
+    });
 
     simulation
         .run_to_file(
