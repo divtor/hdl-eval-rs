@@ -1,5 +1,5 @@
-use std::time::Duration;
 use rust_hdl::prelude::*;
+use std::time::Duration;
 
 const CLOCK_SPEED: u64 = 1_000;
 const BLINKING_DURATION: u64 = 250;
@@ -8,8 +8,8 @@ const SIMULATION_RESULT_PATH: &'static str = "simulations/basic_blinker_simulati
 #[derive(LogicBlock)]
 struct Blinker {
     pub clock: Signal<In, Clock>,
+    pub led: Signal<Out, Bit>,
     pulser: Pulser,
-    pub led: Signal<Out, Bit>
 }
 
 // NOTE: The update method can only contain assignments to .next or .next.field (if self is a struct!)
@@ -28,10 +28,10 @@ impl Default for Blinker {
         let pulse_rate_hz: f64 = 1.0;
         let pulse_duration = Duration::from_millis(BLINKING_DURATION);
 
-        Self { 
-            clock: Default::default(), 
-            pulser: Pulser::new(clock_speed_hz, pulse_rate_hz, pulse_duration), 
-            led: Default::default()
+        Self {
+            clock: Default::default(),
+            pulser: Pulser::new(clock_speed_hz, pulse_rate_hz, pulse_duration),
+            led: Default::default(),
         }
     }
 }
@@ -40,12 +40,18 @@ pub fn simulate() {
     let mut simulation = simple_sim!(Blinker, clock, CLOCK_SPEED, ep, {
         let mut x = ep.init()?;
 
-        wait_clock_cycles!(ep, clock, x, 4*CLOCK_SPEED);
-        
+        wait_clock_cycles!(ep, clock, x, 4 * CLOCK_SPEED);
+
         ep.done(x)
     });
 
     let blinker = Blinker::default();
 
-    simulation.run_to_file(Box::new(blinker), 5 * sim_time::ONE_SEC, SIMULATION_RESULT_PATH).unwrap();
+    simulation
+        .run_to_file(
+            Box::new(blinker),
+            5 * sim_time::ONE_SEC,
+            SIMULATION_RESULT_PATH,
+        )
+        .unwrap();
 }
