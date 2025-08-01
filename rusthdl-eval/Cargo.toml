@@ -7,3 +7,4 @@ license = "MIT"
 [dependencies]
 rust-hdl = { version = "0.46.0", features = ["fpga"] }
 rust-hdl-bsp-ice-stick = { path = "../rust-hdl-bsp-ice-stick" }
+rand = {version = "0.9.2"}
