@@ -10,7 +10,7 @@ pub fn simulate() {
         .map(|_| {
             let a_val = rand::random::<UnsignedN>();
             let b_val = rand::random::<UnsignedN>();
-            let result = (Wrapping(a_val) + Wrapping(b_val)).0; //
+            let result = (Wrapping(a_val) + Wrapping(b_val)).0; // enables integer overflow wrapping
             
             (a_val.to_bits::<N>(), b_val.to_bits::<N>(), result.to_bits::<N>())
         })
@@ -26,7 +26,7 @@ pub fn simulate() {
             wait_clock_cycle!(ep, clock, adder);
 
             println!(
-                "Test case {:x} + {:x} = {:x} (check {:x})",
+                "Test: {:x} + {:x} = {:x} (should be {:x})",
                 a,
                 b,
                 adder.result.val(),
