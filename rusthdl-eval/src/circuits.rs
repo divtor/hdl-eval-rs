@@ -1,26 +1,24 @@
 use rust_hdl::prelude::*;
-use std::{array, time::Duration};
+use std::time::Duration;
 
 // LED circuits -----------------------------------------------------------------------------------
 #[derive(LogicBlock)]
 pub struct MultipleLEDs<const N: usize> {
     pub clock: Signal<In, Clock>,
     pub leds: Signal<Out, Bits<N>>,
-    pub pulsers: [Pulser; N],
+    pub pulser: Pulser,
 }
 
 impl<const N: usize> Default for MultipleLEDs<N> {
     fn default() -> Self {
-        let clock_speed_hz: u64 = 1000;
+        let clock_speed_hz: u64 = 100_000_000;
         let pulse_rate_hz: f64 = 1.0;
 
-        let pulsers = array::from_fn(|idx| {
-            Pulser::new(
-                clock_speed_hz,
-                pulse_rate_hz,
-                Duration::from_millis(((idx as u64) + 1) * 10),
-            )
-        });
+        let pulser = Pulser::new(
+            clock_speed_hz.into(),
+            pulse_rate_hz,
+            Duration::from_millis(250),
+        );
 
         let clock = Default::default();
         let leds = Default::default();
@@ -28,7 +26,7 @@ impl<const N: usize> Default for MultipleLEDs<N> {
         Self {
             clock,
             leds,
-            pulsers,
+            pulser,
         }
     }
 }
@@ -36,18 +34,13 @@ impl<const N: usize> Default for MultipleLEDs<N> {
 impl<const N: usize> Logic for MultipleLEDs<N> {
     #[hdl_gen]
     fn update(&mut self) {
-        for pulser_idx in 0..N {
-            self.pulsers[pulser_idx].clock.next = self.clock.val();
-            self.pulsers[pulser_idx].enable.next = true.into();
-        }
+        self.pulser.enable.next = true;
+        self.pulser.clock.next = self.clock.val();
 
-        self.leds.next = 0.into();
+        self.leds.next = 0b00000.into();
 
-        for pulser_idx in 0..N {
-            self.leds.next = self
-                .leds
-                .val()
-                .replace_bit(pulser_idx, self.pulsers[pulser_idx].pulse.val());
+        if self.pulser.pulse.val() {
+            self.leds.next = 0b11111.into();
         }
     }
 }
@@ -59,7 +52,7 @@ pub struct BitAdder<const N: usize> {
     pub b: Signal<In, Bits<N>>,
     pub result: Signal<Out, Bits<N>>,
     pub clock: Signal<In, Clock>,
-    register: DFF<Bits<N>>
+    register: DFF<Bits<N>>,
 }
 
 impl<const N: usize> Logic for BitAdder<N> {
@@ -70,4 +63,3 @@ impl<const N: usize> Logic for BitAdder<N> {
         self.result.next = self.register.q.val();
     }
 }
-

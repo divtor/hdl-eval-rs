@@ -7,6 +7,7 @@ use std::{
     str::FromStr,
 };
 
+/// Provides the bitstream that can be flashed onto an iCE40-HX1KTQ144 stick
 pub fn generate_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::io::Result<()> {
     program_block.connect_all();
     check_all(&program_block).unwrap();
@@ -31,7 +32,7 @@ pub fn generate_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::
         .arg("top.v")
         .output()?;
 
-    save_stdout(output, &dir, "yosys_synth")?;
+    log_out_and_err(output, &dir, "yosys_synth")?;
 
     let output = Command::new("nextpnr-ice40")
         .current_dir(dir.clone())
@@ -48,19 +49,20 @@ pub fn generate_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::
         ])
         .output()?;
 
-    save_stdout(output, &dir, "nextpnr")?;
+    log_out_and_err(output, &dir, "nextpnr")?;
 
     let output = Command::new("icepack")
         .current_dir(dir.clone())
         .args(["top.asc", "top.bin"])
         .output()?;
 
-    save_stdout(output, &dir, "icepack")?;
+    log_out_and_err(output, &dir, "icepack")?;
 
     Ok(())
 }
 
-fn save_stdout(output: Output, dir: &PathBuf, basename: &str) -> Result<(), std::io::Error> {
+/// Provides logging of the executed command outputs
+fn log_out_and_err(output: Output, dir: &PathBuf, basename: &str) -> Result<(), std::io::Error> {
     let (stdout, stderr) = (
         String::from_utf8(output.stdout).unwrap(),
         String::from_utf8(output.stderr).unwrap(),
