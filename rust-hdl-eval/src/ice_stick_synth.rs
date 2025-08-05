@@ -11,7 +11,7 @@ pub fn synced_leds() {
         pins::led_output(),
     );
 
-    match synth::generate_bitstream(ice_stick_circuit, "ice_stick_synths") {
+    match synth::hx1ktq144_bitstream(ice_stick_circuit, "ice_stick_synths") {
         Ok(()) => {
             println!("Generated bitstream successfully!");
         }
@@ -31,7 +31,7 @@ pub fn asynced_leds() {
         pins::led_output(),
     );
 
-    match synth::generate_bitstream(ice_stick_circuit, "ice_stick_synths") {
+    match synth::hx1ktq144_bitstream(ice_stick_circuit, "ice_stick_synths") {
         Ok(()) => {
             println!("Generated bitstream successfully!");
         }

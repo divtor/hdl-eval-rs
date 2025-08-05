@@ -1,14 +1,10 @@
 use rust_hdl::{core::prelude::*, fpga::toolchains::icestorm::generate_pcf};
 use std::{
-    fs::{File, create_dir_all, remove_dir_all},
-    io::Write,
-    path::PathBuf,
-    process::{Command, Output},
-    str::FromStr,
+    fs::{create_dir_all, remove_dir_all, File}, io::Write, path::PathBuf, process::{Command, Output}, str::FromStr
 };
 
 /// Provides the bitstream that can be flashed onto an iCE40-HX1KTQ144 stick
-pub fn generate_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::io::Result<()> {
+pub fn hx1ktq144_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::io::Result<()> {
     program_block.connect_all();
     check_all(&program_block).unwrap();
 
@@ -57,6 +53,13 @@ pub fn generate_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std::
         .output()?;
 
     log_out_and_err(output, &dir, "icepack")?;
+
+    let output = Command::new("iceprog")
+        .current_dir(dir.clone())
+        .arg("top.bin")
+        .output()?;
+
+    log_out_and_err(output, &dir, "iceprog")?;
 
     Ok(())
 }
