@@ -8,7 +8,8 @@ pub enum Modes {
     BasicSimulation,
     TestingSimulation,
     AdderSimulation,
-    IceStickSynth,
+    LedsSynced,
+    LedsAsynced
 }
 
 const SIMULATION: Modes = Modes::TestingSimulation;
@@ -21,7 +22,8 @@ fn main() {
             Modes::BasicSimulation => basic_sim::simulate(),
             Modes::TestingSimulation => testing_sim::simulate(),
             Modes::AdderSimulation => adder_sim::simulate(),
-            Modes::IceStickSynth => ice_stick_synth::synced_leds(),
+            Modes::LedsSynced => ice_stick_synth::synced_leds(),
+            Modes::LedsAsynced => ice_stick_synth::asynced_leds(),
         }
     } else {
         if cli_arguments.contains(&"--help".to_string()) {
