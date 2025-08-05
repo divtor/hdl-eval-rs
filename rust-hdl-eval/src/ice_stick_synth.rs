@@ -33,13 +33,15 @@ pub fn asynced_leds() {
 /// Flashes any suitable program block into the HX1KTQ144 iCEstick
 fn synth<B: Block>(program_block: B) {
     let dir_name = "ice_stick_synths";
+
+    // NOTE: Failure of 'icestorm' commands does not seem to create an Error instance
+    // This means that the program won't actually fail, even if the iCEstick is not plugged in
     match synth::hx1ktq144_flash(program_block, dir_name) {
         Ok(()) => {
             println!("Flashed the bitstream sucessfully!");
         }
         Err(e) => {
             println!("Error during bitstream flashing: {}", e);
-            println!("Detailed error logs can be found under \"{}\"", dir_name);
         }
     }
 }
