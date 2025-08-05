@@ -54,6 +54,21 @@ pub fn hx1ktq144_bitstream<B: Block>(mut program_block: B, prefix: &str) -> std:
 
     log_out_and_err(output, &dir, "icepack")?;
 
+    Ok(())
+}
+
+pub fn hx1ktq144_flash<B: Block>(program_block: B, prefix: &str) -> std::io::Result<()> {
+    match hx1ktq144_bitstream(program_block, prefix) {
+        Ok(()) => {
+            println!("Generating bitstream during flashing was successful!");
+        },
+        Err(e) => {
+            return Err(e);
+        }
+    };
+
+    let dir = PathBuf::from_str(prefix).unwrap();
+
     let output = Command::new("iceprog")
         .current_dir(dir.clone())
         .arg("top.bin")
