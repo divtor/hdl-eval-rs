@@ -1,9 +1,7 @@
 use rust_hdl::core::prelude::*;
 
-// NOTE(s):
-// - Signals are abstractions of physical wires
-// - To define the pins (locations) for signals I have to use "unofficial" pad names that are defined in yosys, nextpnr, etc.
-// -- I can NOT use pin number directly, as they are only accessible via the iCEstick
+/// Provides the correct iCEstick onboard oscillator frequency
+pub const CLOCK_SPEED_12MHZ: u64 = 12_000_000;
 
 /// Provides abstracted connection to the iCEstick clock
 pub fn clock_input() -> Signal<In, Clock> {
