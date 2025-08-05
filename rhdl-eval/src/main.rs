@@ -10,7 +10,7 @@ const MODE: Modes = Modes::BasicSimulation;
 
 fn main() {
     match MODE {
-        Modes::BasicSimulation => basic_sim::simulate(),
+        Modes::BasicSimulation => {_ = basic_sim::simulate();},
         Modes::AdderSimulation => {},
         Modes::IceStickSynth => {},
     }
