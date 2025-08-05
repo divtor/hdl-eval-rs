@@ -1,4 +1,4 @@
-use rusthdl_eval::{adder_sim, basic_sim, ice_stick_synth, testing_sim};
+use rust_hdl_eval::{adder_sim, basic_sim, ice_stick_synth, testing_sim};
 
 // TODO:
 // - choosing mode either execution parameter or via CLI

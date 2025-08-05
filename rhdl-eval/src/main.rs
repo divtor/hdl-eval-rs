@@ -1,3 +1,18 @@
+use rhdl::prelude::*;
+use rhdl_eval::basic_sim;
+
+pub enum Modes {
+    BasicSimulation,
+    AdderSimulation,
+    IceStickSynth,
+}
+
+const MODE: Modes = Modes::BasicSimulation;
+
 fn main() {
-    println!("Hello, world!");
+    match MODE {
+        Modes::BasicSimulation => basic_sim::simulate(),
+        Modes::AdderSimulation => {},
+        Modes::IceStickSynth => {},
+    }
 }

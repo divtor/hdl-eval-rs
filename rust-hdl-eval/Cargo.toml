@@ -1,5 +1,5 @@
 [package]
-name = "rusthdl-eval"
+name = "rust-hdl-eval"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"

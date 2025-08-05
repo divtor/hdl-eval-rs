@@ -402,6 +402,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "rust-hdl-eval"
+version = "0.1.0"
+dependencies = [
+ "rand 0.9.2",
+ "rust-hdl",
+ "rust-hdl-bsp-ice-stick",
+]
+
+[[package]]
 name = "rust-hdl-fpga-support"
 version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -455,15 +464,6 @@ checksum = "47ad174eeba9c57b08a4dc0de381ce76b3f3607f41216b45b3ec93e7177f1e36"
 dependencies = [
  "array-init",
  "rust-hdl-core",
-]
-
-[[package]]
-name = "rusthdl-eval"
-version = "0.1.0"
-dependencies = [
- "rand 0.9.2",
- "rust-hdl",
- "rust-hdl-bsp-ice-stick",
 ]
 
 [[package]]
