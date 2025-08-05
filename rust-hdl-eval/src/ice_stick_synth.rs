@@ -1,23 +1,37 @@
-use crate::circuits::MultipleLEDs;
-use rust_hdl::prelude::*;
-use std::time::Duration;
+use crate::circuits::{MultiplePulserLEDs, SinglePulserLEDs};
+use rust_hdl_bsp_ice_stick::{pins, synth};
 
-pub fn synthesize() {
-    let pulse_rate_hz: f64 = 1.0;
+pub fn synced_leds() {
+    let duration_ms: u64 = 250;
 
-    let pulser = Pulser::new(
-        rust_hdl_bsp_ice_stick::pins::CLOCK_SPEED_12MHZ,
-        pulse_rate_hz,
-        Duration::from_millis(250),
+    let ice_stick_circuit = SinglePulserLEDs::new(
+        pins::CLOCK_SPEED_12MHZ,
+        duration_ms,
+        pins::clock_input(),
+        pins::led_output(),
     );
 
-    let ice_stick_circuit = MultipleLEDs {
-        clock: rust_hdl_bsp_ice_stick::pins::clock_input(),
-        leds: rust_hdl_bsp_ice_stick::pins::led_output(),
-        pulser,
-    };
+    match synth::generate_bitstream(ice_stick_circuit, "ice_stick_synths") {
+        Ok(()) => {
+            println!("Generated bitstream successfully!");
+        }
+        Err(e) => {
+            println!("Error during bitstream creation: {}", e);
+        }
+    }
+}
 
-    match rust_hdl_bsp_ice_stick::synth::generate_bitstream(ice_stick_circuit, "ice_stick_synths") {
+pub fn asynced_leds() {
+    let duration_scale_ms: u64 = 100;
+
+    let ice_stick_circuit = MultiplePulserLEDs::new(
+        pins::CLOCK_SPEED_12MHZ,
+        duration_scale_ms,
+        pins::clock_input(),
+        pins::led_output(),
+    );
+
+    match synth::generate_bitstream(ice_stick_circuit, "ice_stick_synths") {
         Ok(()) => {
             println!("Generated bitstream successfully!");
         }

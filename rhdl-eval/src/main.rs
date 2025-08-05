@@ -1,4 +1,3 @@
-use rhdl::prelude::*;
 use rhdl_eval::basic_sim;
 
 pub enum Modes {
