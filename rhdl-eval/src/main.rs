@@ -1,13 +1,15 @@
-use rhdl_eval::ice_stick_synth;
+use rhdl_eval::{ice_stick_synth, testing_sim};
 
 pub enum Modes {
-    IceStickSynth,
+    TestingSimulation,
+    Synced,
 }
 
-const MODE: Modes = Modes::IceStickSynth;
+const MODE: Modes = Modes::TestingSimulation;
 
 fn main() {
     match MODE {
-        Modes::IceStickSynth => {ice_stick_synth::alternating_leds();},
+        Modes::TestingSimulation => testing_sim::simulate(),
+        Modes::Synced => ice_stick_synth::synced(),
     }
 }

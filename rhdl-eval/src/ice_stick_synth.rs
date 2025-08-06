@@ -1,10 +1,6 @@
-use crate::leds::IceStickLEDs;
-
-pub fn alternating_leds() {
-    
+pub fn synced() {
+    // TODO implement `rhdl-bsp-ice-stick` before this
     synth();
 }
 
-fn synth() {
-
-}
+fn synth() {}

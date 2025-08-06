@@ -9,7 +9,7 @@ pub enum Modes {
     TestingSimulation,
     AdderSimulation,
     LedsSynced,
-    LedsAsynced
+    LedsAsynced,
 }
 
 const SIMULATION: Modes = Modes::TestingSimulation;

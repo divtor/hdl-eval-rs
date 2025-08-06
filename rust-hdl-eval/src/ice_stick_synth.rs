@@ -1,4 +1,4 @@
-use crate::circuits::{MultiplePulserLEDs, SinglePulserLEDs};
+use crate::fpga::{MultiplePulserLEDs, SinglePulserLEDs};
 use rust_hdl::prelude::Block;
 use rust_hdl_bsp_ice_stick::{pins, synth};
 

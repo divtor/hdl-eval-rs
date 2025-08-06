@@ -6,4 +6,4 @@ edition = "2024"
 [dependencies]
 rhdl = {git = "https://github.com/samitbasu/rhdl"}
 rhdl-fpga = {git = "https://github.com/samitbasu/rhdl", package = "rhdl-fpga"}
-rhdl-bsp-ice-stick = {path = "rhdl-bsp-ice-stick"}
+rhdl-bsp-ice-stick = {path = "../rhdl-bsp-ice-stick"}
