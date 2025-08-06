@@ -1,17 +1,13 @@
-use rhdl_eval::basic_sim;
+use rhdl_eval::ice_stick_synth;
 
 pub enum Modes {
-    BasicSimulation,
-    AdderSimulation,
     IceStickSynth,
 }
 
-const MODE: Modes = Modes::BasicSimulation;
+const MODE: Modes = Modes::IceStickSynth;
 
 fn main() {
     match MODE {
-        Modes::BasicSimulation => {_ = basic_sim::simulate();},
-        Modes::AdderSimulation => {},
-        Modes::IceStickSynth => {},
+        Modes::IceStickSynth => {ice_stick_synth::alternating_leds();},
     }
 }

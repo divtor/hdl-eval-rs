@@ -1,2 +1,2 @@
-pub mod basic_sim;
+pub mod ice_stick_synth;
 pub mod leds;

@@ -1,22 +1,24 @@
 use rhdl::prelude::*;
 
-#[derive(Clone, Debug)]
-pub struct Leds<N: BitWidth> {
-    leds: Bits<N>,
+#[derive(Clone, Default, Debug, Synchronous, SynchronousDQ)]
+pub struct IceStickLEDs {
+    counter: rhdl_fpga::core::counter::Counter<U32>,
 }
 
-impl<N: BitWidth> Default for Leds<N> {
-    fn default() -> Self {
-        Self {
-            leds: Default::default()
-        }
-    }
+impl SynchronousIO for IceStickLEDs {
+    type I = ();
+    type O = b5;
+    type Kernel = blink;
 }
 
 #[kernel]
-pub fn blink<N: BitWidth>(cr: ClockReset, enable: bool) -> Bits<N> {
-    let next_state = if enable {bits(1)} else {bits(0)};
-    let next_state = if cr.reset.any() {bits(0)} else {next_state};
+pub fn blink(_cr: ClockReset, _i: (), q: Q) -> (b5, D) {
+    let mut d = D::dont_care();
+    
+    d.counter = true;
 
-    next_state
+    let output_bit = (q.counter >> 28) & 1 != 0;
+    let o = if output_bit { bits(0b11110) } else { bits(0b00001) };
+    
+    (o, d)
 }
