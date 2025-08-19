@@ -372,7 +372,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-hdl-bsp-ice-stick"
+name = "rust-hdl-bsp-ice40-boards"
 version = "0.1.0"
 dependencies = [
  "rust-hdl",
@@ -407,7 +407,7 @@ version = "0.1.0"
 dependencies = [
  "rand 0.9.2",
  "rust-hdl",
- "rust-hdl-bsp-ice-stick",
+ "rust-hdl-bsp-ice40-boards",
 ]
 
 [[package]]

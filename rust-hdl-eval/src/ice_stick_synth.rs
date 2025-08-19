@@ -1,16 +1,16 @@
 use crate::fpga::{MultiplePulserLEDs, SinglePulserLEDs};
 use rust_hdl::prelude::Block;
-use rust_hdl_bsp_ice_stick::{pins, synth};
+use rust_hdl_bsp_ice40_boards::{pins, synth};
 
 /// Flashes a `SinglePulserLEDs` block onto the HX1KTQ144 iCEstick
 pub fn synced_leds() {
     let duration_ms: u64 = 250;
 
     let single_pulser_leds = SinglePulserLEDs::new(
-        pins::CLOCK_SPEED_12MHZ,
+        pins::ice_stick::CLOCK_SPEED_12MHZ,
         duration_ms,
-        pins::hx1ktq144_clock(),
-        pins::hx1ktq144_leds(),
+        pins::ice_stick::clock(),
+        pins::ice_stick::leds(),
     );
 
     synth(single_pulser_leds);
@@ -21,10 +21,10 @@ pub fn asynced_leds() {
     let duration_scale_ms: u64 = 100;
 
     let mult_pulser_leds = MultiplePulserLEDs::new(
-        pins::CLOCK_SPEED_12MHZ,
+        pins::ice_stick::CLOCK_SPEED_12MHZ,
         duration_scale_ms,
-        pins::hx1ktq144_clock(),
-        pins::hx1ktq144_leds(),
+        pins::ice_stick::clock(),
+        pins::ice_stick::leds(),
     );
 
     synth(mult_pulser_leds);
@@ -36,7 +36,7 @@ fn synth<B: Block>(program_block: B) {
 
     // NOTE: Failure of 'icestorm' commands does not seem to create an Error instance
     // This means that the program won't actually fail, even if the iCEstick is not plugged in
-    match synth::hx1ktq144_flash(program_block, dir_name) {
+    match synth::ice_stick::flash(program_block, dir_name) {
         Ok(()) => {
             println!("Flashed the bitstream sucessfully!");
         }

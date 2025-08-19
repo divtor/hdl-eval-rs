@@ -1,5 +1,5 @@
 [package]
-name = "rust-hdl-bsp-ice-stick"
+name = "rust-hdl-bsp-ice40-boards"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
