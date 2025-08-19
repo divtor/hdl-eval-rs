@@ -3,9 +3,7 @@ use rust_hdl::prelude::Block;
 use rust_hdl_bsp_ice40_boards::{pins, synth};
 
 /// Flashes a `SinglePulserLEDs` block onto the HX1KTQ144 iCEstick
-pub fn synced_leds() {
-    let duration_ms: u64 = 250;
-
+pub fn synced_leds(duration_ms: u64) {
     let single_pulser_leds = SinglePulserLEDs::new(
         pins::ice_stick::CLOCK_SPEED_12MHZ,
         duration_ms,
@@ -17,9 +15,7 @@ pub fn synced_leds() {
 }
 
 /// Flashes a `MultiplePulserLEDs` block onto the HX1KTQ144 iCEstick
-pub fn asynced_leds() {
-    let duration_scale_ms: u64 = 100;
-
+pub fn asynced_leds(duration_scale_ms: u64) {
     let mult_pulser_leds = MultiplePulserLEDs::new(
         pins::ice_stick::CLOCK_SPEED_12MHZ,
         duration_scale_ms,
