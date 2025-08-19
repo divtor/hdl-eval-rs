@@ -4,9 +4,10 @@ Evaluating rust based hardware definition languages:
 * [rhdl](https://github.com/samitbasu/rhdl/) by samitbasu
 
 Other tools used:
-* [yosys](https://github.com/YosysHQ/yosys): Open synthesis suite
-* [icestorm](https://github.com/YosysHQ/icestorm): Bitstream Creation for iCE40 `fpga`s
-* [surfer](https://gitlab.com/surfer-project/surfer): Waveform viewer
+* [yosys](https://github.com/YosysHQ/yosys): open source synthesis suite
+* [icestorm](https://github.com/YosysHQ/icestorm): bitstream creation for iCE40 `fpga`s
+* [nextpnr](https://github.com/YosysHQ/nextpnr): `fpga` place and route tool
+* [surfer](https://gitlab.com/surfer-project/surfer): waveform viewer
 
 
 ## rust-hdl-eval
