@@ -3,7 +3,7 @@ use std::time::Duration;
 
 const CLOCK_SPEED: u64 = 1_000;
 const BLINKING_DURATION: u64 = 250;
-const SIMULATION_RESULT_PATH: &'static str = "simulations/basic_blinker_simulation.vcd";
+const SIMULATION_RESULT_PATH: &str = "simulations/basic_blinker_simulation.vcd";
 
 #[derive(LogicBlock)]
 struct Blinker {
@@ -17,7 +17,7 @@ impl Logic for Blinker {
     #[hdl_gen]
     fn update(&mut self) {
         self.pulser.clock.next = self.clock.val();
-        self.pulser.enable.next = true.into();
+        self.pulser.enable.next = true;
         self.led.next = self.pulser.pulse.val();
     }
 }

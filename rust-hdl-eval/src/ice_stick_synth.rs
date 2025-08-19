@@ -41,7 +41,7 @@ fn synth<B: Block>(program_block: B) {
             println!("Flashed the bitstream sucessfully!");
         }
         Err(e) => {
-            println!("Error during bitstream flashing: {}", e);
+            println!("Error during bitstream flashing: {e}");
         }
     }
 }

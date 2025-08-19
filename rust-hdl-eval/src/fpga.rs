@@ -16,11 +16,7 @@ impl<const N: usize> SinglePulserLEDs<N> {
         clock: Signal<In, Clock>,
         leds: Signal<Out, Bits<N>>,
     ) -> Self {
-        let pulser = Pulser::new(
-            clock_speed_hz.into(),
-            1.0,
-            Duration::from_millis(duration_ms),
-        );
+        let pulser = Pulser::new(clock_speed_hz, 1.0, Duration::from_millis(duration_ms));
 
         Self {
             clock,
@@ -35,11 +31,7 @@ impl<const N: usize> Default for SinglePulserLEDs<N> {
         let clock_speed_hz: u64 = 100_000_000;
         let pulse_rate_hz: f64 = 1.0;
 
-        let pulser = Pulser::new(
-            clock_speed_hz.into(),
-            pulse_rate_hz,
-            Duration::from_millis(250),
-        );
+        let pulser = Pulser::new(clock_speed_hz, pulse_rate_hz, Duration::from_millis(250));
 
         let clock = Default::default();
         let leds = Default::default();
@@ -125,7 +117,7 @@ impl<const N: usize> Logic for MultiplePulserLEDs<N> {
     #[hdl_gen]
     fn update(&mut self) {
         for pulser_idx in 0..N {
-            self.pulsers[pulser_idx].enable.next = true.into();
+            self.pulsers[pulser_idx].enable.next = true;
             self.pulsers[pulser_idx].clock.next = self.clock.val();
         }
 

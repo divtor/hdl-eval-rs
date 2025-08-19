@@ -1,8 +1,7 @@
 use rust_hdl_eval::{adder_sim, basic_sim, ice_stick_synth, testing_sim};
 
-const HELP_HELP: &'static str =
-    "--help: Get information about available commands (was executed here)!";
-const HELP_MODE: &'static str = "--mode [Mode]: [Mode] is either [\"Basic\" | \"Testing\" | \"Adder\"] for simulations or [\"Synced\" | \"Asynced\"] for loading programs onto a iCE40HX1KTQ144 based iCEstick";
+const HELP_HELP: &str = "--help: Get information about available commands (was executed here)!";
+const HELP_MODE: &str = "--mode [Mode]: [Mode] is either [\"Basic\" | \"Testing\" | \"Adder\"] for simulations or [\"Synced\" | \"Asynced\"] for loading programs onto the iCEstick Evaluation Kit";
 
 pub enum Modes {
     BasicSimulation,
@@ -17,7 +16,7 @@ const SIMULATION: Modes = Modes::TestingSimulation;
 fn main() {
     let cli_arguments: Vec<String> = std::env::args().collect();
 
-    if cli_arguments.len() == 0 {
+    if cli_arguments.is_empty() {
         match SIMULATION {
             Modes::BasicSimulation => basic_sim::simulate(),
             Modes::TestingSimulation => testing_sim::simulate(),
@@ -45,13 +44,13 @@ fn main() {
                         "Adder" => adder_sim::simulate(),
                         "Synced" => ice_stick_synth::synced_leds(),
                         "Asynced" => ice_stick_synth::asynced_leds(),
-                        _ => println!("Unkown mode {}", mode),
+                        _ => println!("Unkown mode {mode}"),
                     },
                     _ => println!("Mode value missing!"),
                 },
                 _ => {
                     if argument.as_str().starts_with("--") {
-                        println!("Unkown argument {}", argument);
+                        println!("Unkown argument {argument}");
                     }
                 }
             }
