@@ -27,7 +27,7 @@ impl<N: BitWidth> SynchronousIO for LEDs<N> {
 #[kernel]
 /// Blinky kernel function
 pub fn blink<N: BitWidth>(_cr: ClockReset, enable: bool, q: Q<N>) -> (Bits<N>, D<N>) {
-    let next_count: Bits<N> = if enable { bits(1) } else { bits(0) };
+    let next_count: Bits<N> = if enable { bits(N::BITS as u128) } else { bits(0) };
     (q.leds, D::<N> { leds: next_count })
 }
 
