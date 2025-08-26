@@ -2,10 +2,12 @@
 //! Comes with wrapper methods for known boards:
 //! * `iCEstick Evaluation Kit`
 
-use rust_hdl::{core::{check_error::CheckError, prelude::*}, fpga::toolchains::icestorm::generate_pcf};
-use std::{fs, io::Write, path, process, str::FromStr};
-
 use crate::chip_types::Ice40ChipType;
+use rust_hdl::{
+    core::{check_error::CheckError, prelude::*},
+    fpga::toolchains::icestorm::generate_pcf,
+};
+use std::{fs, io::Write, path, process, str::FromStr};
 
 /// Provides the bitstream that can be flashed onto an iCE40 variant, modelled through `ChipType`.
 /// Individual commands can fail and their error will be written into their `.err` files.
@@ -17,27 +19,25 @@ pub fn bitstream<B: Block>(
     // initial check and setup --------------------------------------------------------------------
     program_block.connect_all();
     match check_all(&program_block) {
-        Err(err) => {
-            match err {
-                CheckError::LogicLoops(_) => panic!("Logic loops in program block!"),
-                CheckError::OpenSignal(_) => panic!("Open signal in program block!"),
-                CheckError::WritesToInputs(_) => panic!("Program block tries to write to inputs!"),
-            }
+        Err(err) => match err {
+            CheckError::LogicLoops(_) => panic!("Logic loops in program block!"),
+            CheckError::OpenSignal(_) => panic!("Open signal in program block!"),
+            CheckError::WritesToInputs(_) => panic!("Program block tries to write to inputs!"),
         },
         _ => {
             // do nothing
-        },
+        }
     }
 
     let dir = match path::PathBuf::from_str(prefix) {
         Ok(path_buf) => path_buf,
-        _ => panic!("Infallible action failed!")
+        _ => panic!("Infallible action failed!"),
     };
 
     if dir.exists() {
         fs::remove_dir_all(&dir)?;
     }
-    
+
     fs::create_dir_all(&dir)?;
 
     // bitstream generation starts ----------------------------------------------------------------

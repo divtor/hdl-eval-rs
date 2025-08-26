@@ -28,12 +28,10 @@ pub fn asynced_leds(duration_scale_ms: u64) {
 
 /// Flashes any suitable program block into the `iCEstick Evaluation Kit`
 fn synth<B: Block>(program_block: B) {
-    let dir_name = "ice_stick_synths";
-
     // NOTE: Failure of 'icestorm' commands does not seem to create an Error instance
     // -> errors get logged into log files.
     // This means that the program won't actually fail, even if the iCEstick is not plugged in
-    match synth::ice_stick::flash(program_block, dir_name) {
+    match synth::ice_stick::flash(program_block, "ice_stick_resources") {
         Ok(()) => {
             println!(
                 "Flashing process finished; If flashing failed verify command logs in .out and .err files!"

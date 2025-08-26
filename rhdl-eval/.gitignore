@@ -3,5 +3,8 @@ target
 **/*.rs.bk
 *.pdb
 simulations/*
+
+# created during execution
 top.v
+test_simulation_vcd/
 test_vcd/

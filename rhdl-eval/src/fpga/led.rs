@@ -27,7 +27,11 @@ impl<N: BitWidth> SynchronousIO for LEDs<N> {
 #[kernel]
 /// Blinky kernel function
 pub fn blink<N: BitWidth>(_cr: ClockReset, enable: bool, q: Q<N>) -> (Bits<N>, D<N>) {
-    let next_count: Bits<N> = if enable { bits(N::BITS as u128) } else { bits(0) };
+    let next_count: Bits<N> = if enable {
+        bits(N::BITS as u128)
+    } else {
+        bits(0)
+    };
     (q.leds, D::<N> { leds: next_count })
 }
 
@@ -44,10 +48,7 @@ fn test_vcd_trace() {
     let input_stream = test_input_stream();
 
     let vcd = leds.run(input_stream).unwrap().collect::<Vcd>();
-    let root = std::path::PathBuf::from_str("test_vcd")
-        .unwrap()
-        .join("vcd")
-        .join("lid");
+    let root = std::path::PathBuf::from_str("test_vcd").unwrap();
 
     if root.exists() {
         std::fs::remove_dir_all(&root).unwrap();
