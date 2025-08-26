@@ -1,4 +1,4 @@
-use crate::fpga::SinglePulserLEDs;
+use crate::fpga::leds::SinglePulserLEDs;
 use rust_hdl::prelude::*;
 
 pub fn simulate() {

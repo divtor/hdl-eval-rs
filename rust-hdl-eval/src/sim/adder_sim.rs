@@ -1,4 +1,4 @@
-use crate::fpga::BitAdder;
+use crate::fpga::arithmetic::BitAdder;
 use rust_hdl::core::prelude::*;
 use std::num::Wrapping;
 

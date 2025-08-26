@@ -1,9 +1,14 @@
-use rust_hdl_eval::{adder_sim, basic_sim, ice_stick_synth, testing_sim};
+use rust_hdl_eval::{ice_stick_synth, sim};
 
 const HELP_HELP: &str = "--help: Get information about available commands (was executed here)!";
 const HELP_MODE: &str = "--mode [Mode]: [Mode] is either [\"Basic\" | \"Testing\" | \"Adder\"] for simulations or [\"Synced\" | \"Asynced\"] for loading programs onto the iCEstick Evaluation Kit";
-const HELP_DURATION: &str ="--duration [ms]: Sets the blinking duration for the \"Synced\" mode (defaults to 250 ms)!";
-const HELP_DURATION_SCALE: &str = "--duration_scale [ms]: Sets the blinking duration scaling for the \"Asynced\" mode (defaults to 100 ms)!";
+const HELP_DURATION: &str =
+    "--duration [ms]: Sets the blinking duration for the \"Synced\" mode. Valid values: 0-999ms";
+const HELP_DURATION_SCALE: &str = "--duration_scale [ms]: Sets the blinking duration scaling for the \"Asynced\" mode. Valid values: 0-199ms";
+
+const DEFAULT_MODE: Modes = Modes::TestingSimulation;
+const DEFAULT_DURATION_MS: u64 = 250;
+const DEFAULT_DURATION_SCALE_MS: u64 = 100;
 
 pub enum Modes {
     BasicSimulation,
@@ -16,17 +21,17 @@ pub enum Modes {
 fn main() {
     let cli_arguments: Vec<String> = std::env::args().collect();
 
-    let mut mode = Modes::TestingSimulation;
-    let mut duration_ms: u64 = 250;
-    let mut duration_scale_ms: u64 = 100;
+    let mut mode = DEFAULT_MODE;
+    let mut duration_ms: u64 = DEFAULT_DURATION_MS;
+    let mut duration_scale_ms: u64 = DEFAULT_DURATION_SCALE_MS;
 
     if !cli_arguments.is_empty() {
         if cli_arguments.contains(&"--help".to_string()) {
             println!("Available commands:");
             println!("{HELP_HELP}");
             println!("{HELP_MODE}");
-            println!("{HELP_DURATION}");
-            println!("{HELP_DURATION_SCALE}");
+            println!("{HELP_DURATION}; Default: {DEFAULT_DURATION_MS}ms");
+            println!("{HELP_DURATION_SCALE}; Default: {DEFAULT_DURATION_SCALE_MS}ms");
         }
 
         for (idx, argument) in cli_arguments
@@ -86,15 +91,15 @@ fn main() {
     match mode {
         Modes::BasicSimulation => {
             println!("Executing basic simulation...");
-            basic_sim::simulate();
+            sim::basic_sim::simulate();
         }
         Modes::TestingSimulation => {
             println!("Executing testing simulation...");
-            testing_sim::simulate();
+            sim::testing_sim::simulate();
         }
         Modes::AdderSimulation => {
             println!("Executing bit adder simulation...");
-            adder_sim::simulate();
+            sim::adder_sim::simulate();
         }
         Modes::LedsSynced => {
             println!(
