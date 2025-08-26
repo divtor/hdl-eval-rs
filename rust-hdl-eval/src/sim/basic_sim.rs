@@ -1,5 +1,5 @@
 use rust_hdl::prelude::*;
-use std::time::Duration;
+use std::{str::FromStr, time::Duration};
 
 const CLOCK_SPEED: u64 = 1_000;
 const BLINKING_DURATION: u64 = 250;
@@ -37,6 +37,12 @@ impl Default for Blinker {
 }
 
 pub fn simulate() {
+    let dir = std::path::PathBuf::from_str("simulations").unwrap();
+
+    if !dir.exists() {
+        _ = std::fs::create_dir_all(dir);
+    }
+
     let mut simulation = simple_sim!(Blinker, clock, CLOCK_SPEED, ep, {
         let mut x = ep.init()?;
 

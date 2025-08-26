@@ -1,8 +1,17 @@
+use std::str::FromStr;
+
 use crate::fpga::leds::SinglePulserLEDs;
 use rust_hdl::prelude::*;
 
 pub fn simulate() {
     let simulation_max_time = sim_time::ONE_SEC * 4;
+
+    let dir = std::path::PathBuf::from_str("simulations").unwrap();
+
+    if !dir.exists() {
+        _ = std::fs::create_dir_all(dir);
+    }
+
     let simulation_vcd_file_path = "simulations/project_simulation.vcd";
 
     // CIRCUIT CREATION ---------------------------------------------------------------------------
