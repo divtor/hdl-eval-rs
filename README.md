@@ -33,14 +33,20 @@ This library provides a blueprint on how to write board support packages (`BSP`s
 * A finished implementation for the `iCEstick Evaluation Kit` is included and can be used.
 * To include other chips/boards in the provided synthesis, the `pins` module must be implemented for the specific board, and the correct instance of an `Ice40ChipType` struct must be used in the abstracted `synth` methods. 
 
-## rust-hdl prerequisites:
+## rust-hdl prerequisites
 * To enable successful transpilation the open source `icestorm` pipeline, `nextpnr` and `yosys` should be [installed](https://prjicestorm.readthedocs.io/en/latest/overview.html#where-are-the-tools-how-to-install).
 * If any OS besides `ubuntu` is used (e.g. `Windows`), additional steps, such as installing drivers for the `iCEstick Evaluation Kit` (or other boards), might be necessary.
 
 ## rhdl-eval
-* Includes a (probably) correct implementation of a blinker block
-* No official documentation for `rhdl` is currently available (2025-08-19) and this makes simulation and flashing onto physical boards a lot harder than it was with `rust-hdl`
+* Includes a implementation of a blinker block
+* Simulation for `.vcd` file creation works.
+* No official documentation for `rhdl` is currently available (2025-08-19) and this makes flashing onto physical boards a lot harder than it was with `rust-hdl`
 * Will try to include this in the future!
+
+### How to run
+* The test simulation can be run via just `cargo run`
+* The `LEDs` test bench can be run via `cargo test test_vcd_trace`
+   * This is very similar to the test simulation though
 
 ## rhdl-bsp-ice-stick
 * Includes WIP implementation to support synthesis on the `iCEstick Evaluation Kit`
@@ -48,3 +54,6 @@ This library provides a blueprint on how to write board support packages (`BSP`s
     * `rust-hdl` utilizes existing open source synthesis tools and targets verilog (via transpilation).
     * `rhdl` on the other hand aims to achieve all of this within native `Rust`.
     * There are currently no clear guidelines (2025-08-19) to the process
+
+## rhdl prerequisites
+* `yosys` should be installed since `rhdl` uses it internally
