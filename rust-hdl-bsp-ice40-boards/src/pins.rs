@@ -4,7 +4,13 @@
 
 /// Provides utility functions regarding the pins of the `iCEstick Evaluation Kit`.
 pub mod ice_stick {
-    use rust_hdl::core::prelude::*;
+    use rust_hdl::core::{
+        bits::Bits,
+        clock::Clock,
+        direction::{In, Out},
+        logic::Logic,
+        signal::Signal,
+    };
 
     /// Provides the correct iCEstick onboard oscillator frequency
     pub const CLOCK_SPEED_12MHZ: u64 = 12_000_000;
