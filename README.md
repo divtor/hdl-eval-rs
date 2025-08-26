@@ -9,8 +9,12 @@ Other tools used:
 * [nextpnr](https://github.com/YosysHQ/nextpnr): `fpga` place and route tool
 * [surfer](https://gitlab.com/surfer-project/surfer): waveform viewer
 
-
 ## rust-hdl-eval
+
+### How to run
+To run the `rust-hdl` evaluation navigate to the `rust-hdl-eval` directory and run `cargo run`. This will default to a test simulation. Running `cargo run -- --help` will provide more information on the existing parameters to run the `rust-hdl` evaluation.
+
+### Modes
 The implementation includes 5 seperate modes:
 * `Basic`: simple Blinky simulation
     * Output: `vcd` file
@@ -31,7 +35,7 @@ This library provides a blueprint on how to write board support packages (`BSP`s
 
 ## rust-hdl prerequisites:
 * To enable successful transpilation the open source `icestorm` pipeline, `nextpnr` and `yosys` should be [installed](https://prjicestorm.readthedocs.io/en/latest/overview.html#where-are-the-tools-how-to-install).
-* If any OS besides `ubuntu` is used (e.g. `Windows`), additional steps, such as installing drivers for the `iCEstick` (or other boards), might be necessary.
+* If any OS besides `ubuntu` is used (e.g. `Windows`), additional steps, such as installing drivers for the `iCEstick Evaluation Kit` (or other boards), might be necessary.
 
 ## rhdl-eval
 * Includes a (probably) correct implementation of a blinker block
