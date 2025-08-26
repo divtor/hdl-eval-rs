@@ -3,7 +3,7 @@ use rhdl::prelude::*;
 // TODO: evaluate how to actually implement this efficiently
 // nothing is documented yet, so this might be a more cumbersome as initially expected
 
-pub fn hx1ktq144_bitstream<B: Synchronous + SynchronousDQ>(
+pub fn bitstream<B: Synchronous + SynchronousDQ>(
     program_block: B,
     _prefix: &str,
 ) -> std::io::Result<()> {
@@ -16,11 +16,11 @@ pub fn hx1ktq144_bitstream<B: Synchronous + SynchronousDQ>(
     Ok(())
 }
 
-pub fn hx1ktq144_flash<B: Synchronous + SynchronousDQ>(
+pub fn flash<B: Synchronous + SynchronousDQ>(
     program_block: B,
     prefix: &str,
 ) -> std::io::Result<()> {
-    match hx1ktq144_bitstream(program_block, prefix) {
+    match bitstream(program_block, prefix) {
         Ok(()) => {
             println!("Generated bitream successfulyl during flashing!");
         }
