@@ -3,4 +3,4 @@ target
 **/*.rs.bk
 *.pdb
 simulations/*
-ice_stick_synths/*
+ice_stick_resources/*
