@@ -31,7 +31,7 @@ pub fn blink<N: BitWidth>(_cr: ClockReset, enable: bool, q: Q<N>) -> (Bits<N>, D
     (q.leds, D::<N> { leds: next_count })
 }
 
-pub fn leds_input_stream() -> impl Iterator<Item = TimedSample<(ClockReset, bool)>> {
+pub fn test_input_stream() -> impl Iterator<Item = TimedSample<(ClockReset, bool)>> {
     vec![true, false, true, false, true, false]
         .into_iter()
         .with_reset(1)
@@ -41,7 +41,7 @@ pub fn leds_input_stream() -> impl Iterator<Item = TimedSample<(ClockReset, bool
 #[test]
 fn test_vcd_trace() {
     let leds = LEDs::<U5>::default();
-    let input_stream = leds_input_stream();
+    let input_stream = test_input_stream();
 
     let vcd = leds.run(input_stream).unwrap().collect::<Vcd>();
     let root = std::path::PathBuf::from_str("test_vcd")
